@@ -8,6 +8,7 @@ import com.baogex.springframework.beans.factory.support.DefaultListableBeanFacto
 import com.baogex.springframework.beans.factory.config.BeanDefinition;
 import com.baogex.springframework.beans.factory.service.SimpleService;
 import com.baogex.springframework.beans.factory.support.SimpleInstantiationStrategy;
+import com.baogex.springframework.beans.factory.support.xml.XmlBeanDefinitionReader;
 import org.junit.Test;
 
 public class ApiTest {
@@ -19,21 +20,14 @@ public class ApiTest {
 
         // 1.创建一个bean工厂
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-        
+
         // 2.注册daoBean
-        beanFactory.registerBeanDefinition(simpleDaoName, new BeanDefinition(SimpleDao.class, null));
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        reader.loadBeanDefinition("classpath:spring.xml");
 
         // 3.注册service实例,添加daoBean依赖
-        PropertyValues propertyValues = new PropertyValues();
-        propertyValues.addPropertyValue(new PropertyValue("dao", new BeanReference(simpleDaoName)));
-        propertyValues.addPropertyValue(new PropertyValue("serviceName", "testServiceName"));
-        beanFactory.registerBeanDefinition(simpleServiceName, new BeanDefinition(SimpleService.class, propertyValues));
-
-        // 4.获取实例
         SimpleService service = (SimpleService) beanFactory.getBean(simpleServiceName);
-
-        // 5.执行方法
-        System.out.println(service.getServiceName() + ":" + service.getUserName("3"));
+        System.out.println(service.getServiceName() + "---" + service.getUserName("2"));
 
     }
 
