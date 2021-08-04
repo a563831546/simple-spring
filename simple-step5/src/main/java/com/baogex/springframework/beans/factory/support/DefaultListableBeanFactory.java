@@ -16,15 +16,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry, ConfigurableListableBeanFactory {
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(8);
 
-    @Override
-    public BeanDefinition getBeanDefinition(String beanName) throws BeansException {
-        BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
-        if (null == beanDefinition) {
-            throw new BeansException("no bean named '" + beanName + "' is defined");
-        }
-        return beanDefinition;
-    }
-
     /**
      * 注册一个bean定义到缓存中取
      *
@@ -34,6 +25,15 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     @Override
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
         beanDefinitionMap.put(beanName, beanDefinition);
+    }
+
+    @Override
+    public BeanDefinition getBeanDefinition(String beanName) throws BeansException {
+        BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
+        if (null == beanDefinition) {
+            throw new BeansException("no bean named '" + beanName + "' is defined");
+        }
+        return beanDefinition;
     }
 
     /**
@@ -71,5 +71,15 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     @Override
     public String[] getBeanDefinitionNames() {
         return beanDefinitionMap.keySet().toArray(new String[0]);
+    }
+
+    /**
+     * 提前实例单例bean对象
+     *
+     * @throws BeansException
+     */
+    @Override
+    public void preInstantiateSingletons() throws BeansException {
+        beanDefinitionMap.keySet().forEach(this::getBean);
     }
 }

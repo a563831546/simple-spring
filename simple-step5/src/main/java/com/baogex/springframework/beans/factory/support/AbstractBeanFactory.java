@@ -3,6 +3,11 @@ package com.baogex.springframework.beans.factory.support;
 import com.baogex.springframework.beans.factory.BeanFactory;
 import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.factory.config.BeanDefinition;
+import com.baogex.springframework.beans.factory.config.BeanPostProcessor;
+import com.baogex.springframework.beans.factory.config.ConfigurableBeanFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 抽象bean工厂，继承了DefaultSingletonBeanRegistry，
@@ -10,7 +15,9 @@ import com.baogex.springframework.beans.factory.config.BeanDefinition;
  * @author : baogex.com
  * @since : 2021-08-02
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>(8);
 
     @Override
     public Object getBean(String beanName) {
@@ -22,6 +29,10 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         return doGetBean(beanName, args);
     }
 
+    @Override
+    public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
+        return (T) getBean(name);
+    }
 
     protected Object doGetBean(final String beanName, final Object[] args) {
         // 1.先去实例缓存中获取单例对象
@@ -31,6 +42,22 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         }
         // 2.找不到则开始创建bean实例
         return createBean(beanName, getBeanDefinition(beanName), args);
+    }
+
+
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return beanPostProcessors;
+    }
+
+    /**
+     * 添加beanPostProcessor
+     *
+     * @param beanPostProcessor bean
+     */
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+        this.beanPostProcessors.remove(beanPostProcessor);
+        this.beanPostProcessors.add(beanPostProcessor);
     }
     /* ============================抽象定义============================*/
 

@@ -1,6 +1,7 @@
-## Step2
+## step3
 
-### XD
+支持属性注入
 
-1. Factory后缀类负责根据beanDefinition信息创建Bean实例对象
-2. Registry后缀类负责注册实例到容器
+1. 引入**PropertyValue** 属性值对象
+2. **AbstractAutowireCapableBeanFactory** 创建bean实例时添加属性注入方法
+3. **AbstractAutowireCapableBeanFactory** 添加InstantiationStrategy接口，支持多方式创建实例，如jdk、cglib

@@ -1,6 +1,5 @@
-## Step2
+## step4
 
-### XD
-
-1. Factory后缀类负责根据beanDefinition信息创建Bean实例对象
-2. Registry后缀类负责注册实例到容器
+1. 引入**Resource** 类：存储资源，**ResourceLoader**加载资源
+2. 引入**BeanDefinitionReader**，支持将resource资源中beanDefinition资源加载至工厂
+3. 实现**XmlBeanDefinitionReader** 类读取xml文件的beanDefinition信息

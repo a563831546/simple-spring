@@ -1,5 +1,6 @@
 package com.baogex.springframework.beans.factory.config;
 
+import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.factory.BeanFactory;
 
 /**
@@ -12,4 +13,8 @@ import com.baogex.springframework.beans.factory.BeanFactory;
  * @date : 2021-08-04
  */
 public interface AutowireCapableBeanFactory extends BeanFactory {
+    
+    Object applyBeanPostProcessorsBeforeInitialization(Object existingBean,String beanName) throws BeansException;
+    
+    Object applyBeanPostProcessorsAfterInitialization(Object existingBean,String beanName) throws BeansException;
 }

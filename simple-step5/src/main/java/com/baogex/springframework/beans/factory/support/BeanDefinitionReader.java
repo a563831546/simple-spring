@@ -33,4 +33,9 @@ public interface BeanDefinitionReader {
      * 把resource资源解析后加载至容器
      */
     void loadBeanDefinition(String location) throws BeansException;
+
+    /*8
+     * resource资源解析后加载至容器
+     */
+    void loadBeanDefinitions(String... locations) throws BeansException;
 }

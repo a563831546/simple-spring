@@ -1,5 +1,7 @@
 package com.baogex.springframework.beans.factory;
 
+import com.baogex.springframework.beans.BeansException;
+
 /**
  * <p>
  *
@@ -27,4 +29,15 @@ public interface BeanFactory {
      * @return 返回一个创建好的bean实例对象，如果不存在则返回null
      */
     Object getBean(String beanName, Object... args);
+
+    /**
+     * 根绝类
+     * @param name
+     * @param requiredType
+     * @param <T>
+     * @return
+     * @throws BeansException
+     */
+    <T> T getBean(String name, Class<T> requiredType) throws BeansException;
+
 }
