@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+    
+    <bean id="simpleDao" name="dao" class="com.baogex.springframework.beans.factory.service.SimpleDao"/>
+    
+    <bean name="simpleService" class="com.baogex.springframework.beans.factory.service.SimpleService">
+        <property name="dao" ref="simpleDao"/>
+        <property name="serviceName" value="xmlTestServiceName"/>
+    </bean>
+</beans>
