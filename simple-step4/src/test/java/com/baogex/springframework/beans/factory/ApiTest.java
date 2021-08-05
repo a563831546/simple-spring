@@ -1,14 +1,8 @@
 package com.baogex.springframework.beans.factory;
 
-import com.baogex.springframework.beans.PropertyValue;
-import com.baogex.springframework.beans.PropertyValues;
-import com.baogex.springframework.beans.factory.config.BeanReference;
-import com.baogex.springframework.beans.factory.service.SimpleDao;
 import com.baogex.springframework.beans.factory.support.DefaultListableBeanFactory;
-import com.baogex.springframework.beans.factory.config.BeanDefinition;
 import com.baogex.springframework.beans.factory.service.SimpleService;
-import com.baogex.springframework.beans.factory.support.SimpleInstantiationStrategy;
-import com.baogex.springframework.beans.factory.support.xml.XmlBeanDefinitionReader;
+import com.baogex.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.junit.Test;
 
 public class ApiTest {

@@ -1,7 +1,10 @@
 package com.baogex.springframework.beans.factory.support;
 
+import com.baogex.springframework.beans.BeansException;
+import com.baogex.springframework.beans.factory.DisposableBean;
 import com.baogex.springframework.beans.factory.config.SingletonBeanRegistry;
 
+import javax.security.auth.Destroyable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     private final Map<String, Object> registers = new ConcurrentHashMap<>(8);
+    private final Map<String, DisposableBean> disposableBeans = new ConcurrentHashMap<>(8);
+
 
     /**
      * 获取一个单例bean，根据bean名称取检索
@@ -34,5 +39,20 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
      */
     protected void addSingleton(String beanName, Object args) {
         registers.put(beanName, args);
+    }
+
+    public void registerDisposableBean(String beanName, DisposableBean bean) {
+        disposableBeans.put(beanName, bean);
+    }
+
+    public void destroySingletons() {
+        for (String beanName : disposableBeans.keySet()) {
+            DisposableBean disposableBean = disposableBeans.remove(beanName);
+            try {
+                disposableBean.destroy();
+            } catch (Exception e) {
+                throw new BeansException("Destroy method on bean with name '" + beanName + "' threw an exception", e);
+            }
+        }
     }
 }

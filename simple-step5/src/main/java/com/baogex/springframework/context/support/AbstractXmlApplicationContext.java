@@ -1,7 +1,7 @@
 package com.baogex.springframework.context.support;
 
 import com.baogex.springframework.beans.factory.support.DefaultListableBeanFactory;
-import com.baogex.springframework.beans.factory.support.xml.XmlBeanDefinitionReader;
+import com.baogex.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
 /**
  * @author : baogex.com

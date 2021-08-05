@@ -1,11 +1,10 @@
 package com.baogex.springframework.beans.factory;
 
-import cn.hutool.json.JSON;
 import com.baogex.springframework.beans.factory.processor.MyPostBeanFactoryProcessor;
 import com.baogex.springframework.beans.factory.processor.MyPostBeanProcessor;
 import com.baogex.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.baogex.springframework.beans.factory.service.SimpleService;
-import com.baogex.springframework.beans.factory.support.xml.XmlBeanDefinitionReader;
+import com.baogex.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import com.baogex.springframework.context.support.ClassPathXmlApplicationContext;
 import org.junit.Test;
 
@@ -39,9 +38,16 @@ public class ApiTest {
 
     @Test
     public void testXml() {
+        System.out.println("[ApiTest]---new ClassPathXmlApplicationContext");
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+
+        System.out.println("[ApiTest]---call registerShutdownHook");
+        applicationContext.registerShutdownHook();
+
+        System.out.println("[ApiTest]---applicationContext.getBean");
         SimpleService simpleService = applicationContext.getBean(simpleServiceName, SimpleService.class);
+        System.out.println("-----------------Start Business processing-----------------");
         System.out.println(simpleService.getUserNameById("3"));
-        System.out.println(simpleService);
+        System.out.println("-----------------Stop  Business processing-----------------");
     }
 }

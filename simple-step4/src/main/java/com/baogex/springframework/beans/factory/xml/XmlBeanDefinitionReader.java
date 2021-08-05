@@ -1,4 +1,4 @@
-package com.baogex.springframework.beans.factory.support.xml;
+package com.baogex.springframework.beans.factory.xml;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
@@ -57,13 +57,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         loadBeanDefinition(resource);
     }
 
-    @Override
-    public void loadBeanDefinitions(String... locations) throws BeansException {
-        for (String location : locations) {
-            loadBeanDefinition(location);
-        }
-    }
-    
+
     private void doLoadBeanDefinition(InputStream inputStream) throws ClassNotFoundException {
         Document document = XmlUtil.readXML(inputStream);
         Element root = document.getDocumentElement();
@@ -78,19 +72,18 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             String id = bean.getAttribute("id");
             String name = bean.getAttribute("name");
             String className = bean.getAttribute("class");
-            // bean的类信息
-            Class<?> clazz = Class.forName(className);
+
             // bean在容器中名称,优先级 id > name
             String beanName = StrUtil.isNotEmpty(id) ? id : name;
-            if(StrUtil.isEmpty(beanName)) {
-                beanName = StrUtil.lowerFirst(clazz.getSimpleName());
-            }
+            beanName = StrUtil.lowerFirst(beanName);
+
             // bean不能重复
             if (getRegistry().containsBeanDefinition(beanName)) {
                 throw new BeansException(" Duplicate beanName[" + beanName + "] is not allowed");
             }
 
-         
+            // bean的类信息
+            Class<?> clazz = Class.forName(className);
 
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
             for (int j = 0; j < bean.getChildNodes().getLength(); j++) {

@@ -10,14 +10,20 @@ import java.util.Map;
 public class SimpleDao {
     private Map<String, String> userData = new HashMap<>(4);
 
-    {
+    public void initDataMethod() {
+        System.out.println("[DAO]---initDataMethod");
         userData.put("1", "小明");
         userData.put("2", "中明");
         userData.put("3", "大明");
         userData.put("4", "究明");
     }
+
+    public void destroyDataMethod(){
+        System.out.println("[DAO]---destroyDataMethod");
+        userData.clear();
+    }
     
-    public String getUserNameById(String id){
+    public String getUserNameById(String id) {
         return userData.get(id);
     }
 }

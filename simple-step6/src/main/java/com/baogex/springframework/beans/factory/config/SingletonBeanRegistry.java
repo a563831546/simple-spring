@@ -1,5 +1,7 @@
 package com.baogex.springframework.beans.factory.config;
 
+import com.baogex.springframework.beans.factory.DisposableBean;
+
 /**
  * 单例bean工厂
  *

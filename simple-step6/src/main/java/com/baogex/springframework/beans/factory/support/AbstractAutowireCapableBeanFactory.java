@@ -1,17 +1,22 @@
 package com.baogex.springframework.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.PropertyValue;
 import com.baogex.springframework.beans.PropertyValues;
+import com.baogex.springframework.beans.factory.DisposableBean;
+import com.baogex.springframework.beans.factory.InitializingBean;
 import com.baogex.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.baogex.springframework.beans.factory.config.BeanDefinition;
 import com.baogex.springframework.beans.factory.config.BeanPostProcessor;
 import com.baogex.springframework.beans.factory.config.BeanReference;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -40,17 +45,31 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         Object bean;
         try {
             // 1.创建bean实例
+            System.out.println("BeanFactory--createBeanInstance--" + beanName);
             bean = createBeanInstance(beanName, beanDefinition, args);
+            
             // 2.填充属性值
+            System.out.println("BeanFactory--applyPropertyValues--" + beanName);
             applyPropertyValues(beanName, bean, beanDefinition);
+            
             // 3.执行bean初始化、BeanPostProcessor的前置和后置
+            System.out.println("BeanFactory--initializeBean--" + beanName);
             bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeansException("实例化Bean时发生错误", e);
         }
-        // 4.添加至容器
+        // 4.添加销毁接口注册至集合
+        registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+
+        // 5.添加至容器
         addSingleton(beanName, bean);
         return bean;
+    }
+
+    private void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
+        if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+            registerDisposableBean(beanName, new DisposableBeanAdapter(beanName, bean, beanDefinition));
+        }
     }
 
     /**
@@ -116,20 +135,37 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * @param beanDefinition bean定义对象
      * @return 初始化后的bean实例
      */
-    private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+    private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
         // 执行beanPostProcessor before方法
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
-        // todo 执行 bean初始化方法，
+        //  bean初始化方法，
         invokeInitMethods(beanName, wrappedBean, beanDefinition);
 
         // 执行beanPostProcessor after方法
         return applyBeanPostProcessorsAfterInitialization(bean, beanName);
     }
 
-    // TODO Method
-    private void invokeInitMethods(String beanName, Object wrappedBean, BeanDefinition beanDefinition) {
+    /**
+     * 执行bean初始化函数，InitializingBean.afterPropertiesSet优先级高于 > init-method
+     *
+     * @param {...} 见名之意
+     */
+    private void invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+        // 1.调用初始化接口
+        if (bean instanceof InitializingBean) {
+            ((InitializingBean) bean).afterPropertiesSet();
+        }
 
+        // 2. 调用init-method函数
+        String initMethodName = beanDefinition.getInitMethodName();
+        if (StrUtil.isNotEmpty(initMethodName)) {
+            Method method = beanDefinition.getBeanClass().getMethod(initMethodName);
+            if (method == null) {
+                throw new BeansException("Could not find an init method named '" + initMethodName + "' on bean with name '" + beanName + "'");
+            }
+            method.invoke(bean);
+        }
     }
 
     /**

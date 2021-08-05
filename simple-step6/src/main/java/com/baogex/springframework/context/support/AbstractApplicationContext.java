@@ -64,6 +64,22 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     protected abstract void refreshBeanFactory();
 
     /**
+     * 向当前应用程序注册关闭钩子函数
+     */
+    @Override
+    public void registerShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
+    }
+
+    /**
+     * 关闭方法
+     */
+    @Override
+    public void close() {
+        getBeanFactory().destroySingletons();
+    }
+
+    /**
      * 按类型获取bean集合
      *
      * @param type

@@ -1,4 +1,4 @@
-package com.baogex.springframework.beans.factory.support.xml;
+package com.baogex.springframework.beans.factory.xml;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
@@ -36,7 +36,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         try {
             try (InputStream inputStream = resource.getInputStream()) {
                 doLoadBeanDefinition(inputStream);
-            } 
+            }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -63,7 +63,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             loadBeanDefinition(location);
         }
     }
-    
+
     private void doLoadBeanDefinition(InputStream inputStream) throws ClassNotFoundException {
         Document document = XmlUtil.readXML(inputStream);
         Element root = document.getDocumentElement();
@@ -78,11 +78,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             String id = bean.getAttribute("id");
             String name = bean.getAttribute("name");
             String className = bean.getAttribute("class");
+            String initMethod = bean.getAttribute("init-method");
+            String destroyMethod = bean.getAttribute("destroy-method");
             // bean的类信息
             Class<?> clazz = Class.forName(className);
             // bean在容器中名称,优先级 id > name
             String beanName = StrUtil.isNotEmpty(id) ? id : name;
-            if(StrUtil.isEmpty(beanName)) {
+            if (StrUtil.isEmpty(beanName)) {
                 beanName = StrUtil.lowerFirst(clazz.getSimpleName());
             }
             // bean不能重复
@@ -90,9 +92,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 throw new BeansException(" Duplicate beanName[" + beanName + "] is not allowed");
             }
 
-         
 
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
+            if (StrUtil.isNotEmpty(initMethod)) {
+                beanDefinition.setInitMethodName(initMethod);
+            }
+
+            if (StrUtil.isNotEmpty(destroyMethod)) {
+                beanDefinition.setDestroyMethodName(destroyMethod);
+            }
+
             for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
                 Node propertyNode = bean.getChildNodes().item(j);
                 if ((!(propertyNode instanceof Element)) ||
