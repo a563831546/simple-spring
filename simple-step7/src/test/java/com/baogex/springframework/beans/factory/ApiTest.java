@@ -38,13 +38,13 @@ public class ApiTest {
 
     @Test
     public void testXml() {
-        System.out.println("[ApiTest]---new ClassPathXmlApplicationContext");
+        System.out.println("=====step1======[ApiTest]---new ClassPathXmlApplicationContext===========");
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
 
-        System.out.println("[ApiTest]---call registerShutdownHook");
+        System.out.println("=====step2======[ApiTest]---call registerShutdownHook===========");
         applicationContext.registerShutdownHook();
 
-        System.out.println("[ApiTest]---applicationContext.getBean");
+        System.out.println("=====step3======[ApiTest]---applicationContext.getBean===========");
         SimpleService simpleService = applicationContext.getBean(simpleServiceName, SimpleService.class);
         System.out.println("-----------------Start Business processing-----------------");
         System.out.println(simpleService.getUserNameById("3"));

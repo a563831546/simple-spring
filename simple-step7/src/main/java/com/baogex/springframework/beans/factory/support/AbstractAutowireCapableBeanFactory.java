@@ -5,8 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.PropertyValue;
 import com.baogex.springframework.beans.PropertyValues;
-import com.baogex.springframework.beans.factory.DisposableBean;
-import com.baogex.springframework.beans.factory.InitializingBean;
+import com.baogex.springframework.beans.factory.*;
 import com.baogex.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.baogex.springframework.beans.factory.config.BeanDefinition;
 import com.baogex.springframework.beans.factory.config.BeanPostProcessor;
@@ -45,15 +44,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         Object bean;
         try {
             // 1.创建bean实例
-            System.out.println("BeanFactory--createBeanInstance--" + beanName);
+            System.out.println("AbstractAutowireCapableBeanFactory--step1-createBeanInstance--" + beanName);
             bean = createBeanInstance(beanName, beanDefinition, args);
-            
+
             // 2.填充属性值
-            System.out.println("BeanFactory--applyPropertyValues--" + beanName);
+            System.out.println("AbstractAutowireCapableBeanFactory--step2-applyPropertyValues--" + beanName);
             applyPropertyValues(beanName, bean, beanDefinition);
-            
+
             // 3.执行bean初始化、BeanPostProcessor的前置和后置
-            System.out.println("BeanFactory--initializeBean--" + beanName);
+            System.out.println("AbstractAutowireCapableBeanFactory--step3-initializeBean--" + beanName);
             bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeansException("实例化Bean时发生错误", e);
@@ -136,13 +135,28 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * @return 初始化后的bean实例
      */
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
-        // 执行beanPostProcessor before方法
+        if (bean instanceof Aware) {
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+            if (bean instanceof BeanClassLoaderAware) {
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+            }
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+        }
+
+        // 1.执行beanPostProcessor before方法
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
-        //  bean初始化方法，
-        invokeInitMethods(beanName, wrappedBean, beanDefinition);
-
-        // 执行beanPostProcessor after方法
+        // 2.bean初始化方法
+        try {
+            invokeInitMethods(beanName, wrappedBean, beanDefinition);
+        } catch (Exception e) {
+            throw new BeansException("Invocation of init method of bean[" + beanName + "] failed", e);
+        }
+        // 3.执行beanPostProcessor after方法
         return applyBeanPostProcessorsAfterInitialization(bean, beanName);
     }
 

@@ -1,8 +1,10 @@
 package com.baogex.springframework.beans.factory.service;
 
 
-import com.baogex.springframework.beans.factory.DisposableBean;
-import com.baogex.springframework.beans.factory.InitializingBean;
+import com.baogex.springframework.beans.BeansException;
+import com.baogex.springframework.beans.factory.*;
+import com.baogex.springframework.context.ApplicationContext;
+import com.baogex.springframework.context.ApplicationContextAware;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,7 +16,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class SimpleService implements InitializingBean, DisposableBean {
+public class SimpleService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+    private ApplicationContext applicationContext;
+    private BeanFactory beanFactory;
 
     private String serviceName;
 
@@ -24,6 +28,7 @@ public class SimpleService implements InitializingBean, DisposableBean {
 
     private SimpleDao dao;
 
+    public final static String beanName = "<Service>";
 
     public String getUserNameById(String userId) {
         return dao.getUserNameById(userId);
@@ -36,7 +41,7 @@ public class SimpleService implements InitializingBean, DisposableBean {
      */
     @Override
     public void destroy() throws Exception {
-        System.out.println("[Service]---destroy");
+        System.out.println(beanName + "---destroy");
     }
 
     /**
@@ -44,6 +49,29 @@ public class SimpleService implements InitializingBean, DisposableBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("[Service]---afterPropertiesSet");
+        System.out.println(beanName + "---afterPropertiesSet");
+    }
+
+    @Override
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        System.out.println(beanName + "--[Aware]-setBeanClassLoader:" + classLoader);
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        System.out.println(beanName + "--[Aware]-setBeanFactory:" + beanFactory);
+        this.beanFactory = beanFactory;
+    }
+
+    @Override
+    public void setBeanName(String name) {
+        System.out.println(beanName + "--[Aware]-setBeanName:" + name);
+
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext context) throws BeansException {
+        System.out.println(beanName + "--[Aware]-setApplicationContext:" + context);
+        this.applicationContext = context;
     }
 }

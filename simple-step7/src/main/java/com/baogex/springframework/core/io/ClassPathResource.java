@@ -2,7 +2,7 @@ package com.baogex.springframework.core.io;
 
 
 import cn.hutool.core.lang.Assert;
-import com.baogex.springframework.util.ClassUtil;
+import com.baogex.springframework.util.ClassUtils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class ClassPathResource implements Resource {
     public ClassPathResource(String path, ClassLoader classLoader) {
         Assert.notNull(path, "path must not null");
         this.path = path;
-        this.classLoader = classLoader != null ? classLoader : ClassUtil.getDefaultClassLoader();
+        this.classLoader = classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader();
     }
 
     @Override

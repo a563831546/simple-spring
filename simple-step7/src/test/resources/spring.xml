@@ -14,6 +14,6 @@
           init-method="initDataMethod"
           destroy-method="destroyDataMethod"
     />
-    <bean class="com.baogex.springframework.beans.factory.processor.MyPostBeanFactoryProcessor"/>
-    <bean class="com.baogex.springframework.beans.factory.processor.MyPostBeanProcessor"/>
+<!--    <bean class="com.baogex.springframework.beans.factory.processor.MyPostBeanFactoryProcessor"/>-->
+<!--    <bean class="com.baogex.springframework.beans.factory.processor.MyPostBeanProcessor"/>-->
 </beans>
