@@ -15,6 +15,7 @@
         <module>simple-step4</module>
         <module>simple-step5</module>
         <module>simple-step6</module>
+        <module>simple-step7</module>
     </modules>
 
     <properties>
