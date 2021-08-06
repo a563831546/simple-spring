@@ -57,15 +57,22 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         } catch (Exception e) {
             throw new BeansException("实例化Bean时发生错误", e);
         }
-        // 4.添加销毁接口注册至集合
+        // 4.注册销毁接口添加至集合
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
 
-        // 5.添加至容器
-        addSingleton(beanName, bean);
+        // 5.如果是单例，则将实例对象加入内存中
+        if (beanDefinition.isSingleton()) {
+            addSingleton(beanName, bean);
+        }
         return bean;
     }
 
     private void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
+        // 非单例不执行销毁
+        if (!beanDefinition.isSingleton()) {
+            return;
+        }
+
         if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
             registerDisposableBean(beanName, new DisposableBeanAdapter(beanName, bean, beanDefinition));
         }

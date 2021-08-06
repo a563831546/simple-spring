@@ -5,8 +5,10 @@ import com.baogex.springframework.beans.factory.processor.MyPostBeanProcessor;
 import com.baogex.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.baogex.springframework.beans.factory.service.SimpleService;
 import com.baogex.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import com.baogex.springframework.context.ApplicationContext;
 import com.baogex.springframework.context.support.ClassPathXmlApplicationContext;
 import org.junit.Test;
+import org.openjdk.jol.info.ClassLayout;
 
 public class ApiTest {
     public static String simpleDaoName = "simpleDao";
@@ -34,6 +36,18 @@ public class ApiTest {
 
         System.out.println(service.getServiceName() + "---" + service.getUserNameById("2"));
         System.out.println(service);
+    }
+
+    @Test
+    public void test_prototype() {
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        SimpleService service1 = applicationContext.getBean(simpleServiceName, SimpleService.class);
+        SimpleService service2 = applicationContext.getBean(simpleServiceName, SimpleService.class);
+        System.out.println(service1);
+        System.out.println(service2);
+        // 4. 打印十六进制哈希
+        System.out.println(service1 + " 十六进制哈希：" + Integer.toHexString(service1.hashCode()));
+        System.out.println(ClassLayout.parseInstance(service1).toPrintable());
     }
 
     @Test

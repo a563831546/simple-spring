@@ -5,6 +5,7 @@ import com.baogex.springframework.beans.factory.DisposableBean;
 import com.baogex.springframework.beans.factory.config.SingletonBeanRegistry;
 
 import javax.security.auth.Destroyable;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,8 +17,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
+    protected static final Object NULL_OBJECT = new Object();
+
     private final Map<String, Object> registers = new ConcurrentHashMap<>(8);
-    private final Map<String, DisposableBean> disposableBeans = new ConcurrentHashMap<>(8);
+    private final Map<String, DisposableBean> disposableBeans = new LinkedHashMap<>(8);
 
 
     /**
@@ -35,7 +38,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
      * 添加一个bean实例到注册容器中，key为bean名称，value为bean实例对象
      *
      * @param beanName        bean名称
-     * @param singletonObject bean的实例对象
+     * @param args bean的实例对象
      */
     protected void addSingleton(String beanName, Object args) {
         registers.put(beanName, args);
