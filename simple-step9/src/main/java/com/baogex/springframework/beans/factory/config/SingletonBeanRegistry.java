@@ -17,4 +17,8 @@ public interface SingletonBeanRegistry {
      * @return 已经注册的bean对象，如果没注册则返回null
      */
     Object getSingleton(String beanName);
+    
+    
+    void registerSingleton(String beanName, Object singletonObject);
+    
 }
