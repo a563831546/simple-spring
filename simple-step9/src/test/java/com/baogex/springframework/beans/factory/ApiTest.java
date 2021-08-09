@@ -1,5 +1,6 @@
 package com.baogex.springframework.beans.factory;
 
+import com.baogex.springframework.beans.factory.event.CustomEvent;
 import com.baogex.springframework.beans.factory.processor.MyPostBeanFactoryProcessor;
 import com.baogex.springframework.beans.factory.processor.MyPostBeanProcessor;
 import com.baogex.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -64,4 +65,16 @@ public class ApiTest {
         System.out.println(simpleService.getUserNameById("3"));
         System.out.println("-----------------Stop  Business processing-----------------");
     }
+
+    @Test
+    public void testEvent() {
+        System.out.println("=====step1======[ApiTest]---new ClassPathXmlApplicationContext===========");
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+
+        applicationContext.publishEvent(new CustomEvent(applicationContext, 1L, "哈哈哈"));
+
+        System.out.println("=====step2======[ApiTest]---call registerShutdownHook===========");
+        applicationContext.registerShutdownHook();
+    }
+
 }

@@ -1,8 +1,5 @@
 ## Step6
 
-### 支持FactoryBean
+### 支持事件Event发布
 
-1. 添加bean作用域（单例、原型）
-2. 在getBean方法中添加FactoryBean的处理逻辑
-3. 添加**FactoryBeanRegistry**处理从factoryBean生产bean
-
+1. 定义**ApplicationEvent**,事件监听发布属于容器

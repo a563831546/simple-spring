@@ -38,10 +38,11 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
      * 添加一个bean实例到注册容器中，key为bean名称，value为bean实例对象
      *
      * @param beanName        bean名称
-     * @param args bean的实例对象
+     * @param singletonObject bean的实例对象
      */
-    protected void addSingleton(String beanName, Object args) {
-        registers.put(beanName, args);
+    @Override
+    public void registerSingleton(String beanName, Object singletonObject) {
+        registers.put(beanName, singletonObject);
     }
 
     public void registerDisposableBean(String beanName, DisposableBean bean) {

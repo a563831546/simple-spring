@@ -17,5 +17,4 @@ public interface ApplicationEventMulticaster {
     
     void multicastEvent(ApplicationEvent event);
     
-    
 }

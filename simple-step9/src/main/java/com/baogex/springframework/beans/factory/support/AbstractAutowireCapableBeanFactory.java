@@ -62,8 +62,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
         // 5.如果是单例，则将实例对象加入内存中
         if (beanDefinition.isSingleton()) {
-            addSingleton(beanName, bean);
+            registerSingleton(beanName, bean);
         }
+        System.out.println("------------------AbstractAutowireCapableBeanFactory--bean["
+                + beanName + "] done------------------");
         return bean;
     }
 
