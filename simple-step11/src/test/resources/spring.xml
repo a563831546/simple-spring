@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+
+    <bean name="simpleService" class="com.baogex.springframework.beans.factory.service.UserService" scope="prototype">
+        <property name="serviceName" value="xmlTestServiceName"/>
+        <property name="company" value="default-company"/>
+        <property name="location" value="default-location"/>
+        <property name="dao" ref="iUserDao"/>
+    </bean>
+
+
+    <bean class="com.baogex.springframework.beans.factory.event.ContextRefreshedEventListener"/>
+    <bean class="com.baogex.springframework.beans.factory.event.CustomEventListener"/>
+    <bean class="com.baogex.springframework.beans.factory.event.ContextClosedEventListener"/>
+
+    <bean id="iUserDao" name="iUserDao" class="com.baogex.springframework.beans.factory.service.ProxyBeanFactory"/>
+    <!--    <bean class="com.baogex.springframework.beans.factory.processor.MyPostBeanFactoryProcessor"/>-->
+    <!--    <bean class="com.baogex.springframework.beans.factory.processor.MyPostBeanProcessor"/>-->
+</beans>
