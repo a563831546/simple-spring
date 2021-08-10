@@ -13,7 +13,6 @@ import com.baogex.springframework.beans.factory.config.BeanPostProcessor;
 import com.baogex.springframework.beans.factory.config.BeanReference;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -47,11 +46,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             // 1.创建bean实例
             System.out.println("BeanFactory--createBeanInstance--" + beanName);
             bean = createBeanInstance(beanName, beanDefinition, args);
-            
+
             // 2.填充属性值
             System.out.println("BeanFactory--applyPropertyValues--" + beanName);
             applyPropertyValues(beanName, bean, beanDefinition);
-            
+
             // 3.执行bean初始化、BeanPostProcessor的前置和后置
             System.out.println("BeanFactory--initializeBean--" + beanName);
             bean = initializeBean(beanName, bean, beanDefinition);

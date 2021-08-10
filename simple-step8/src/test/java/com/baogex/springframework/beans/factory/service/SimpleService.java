@@ -7,7 +7,6 @@ import com.baogex.springframework.context.ApplicationContext;
 import com.baogex.springframework.context.ApplicationContextAware;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * @author : baogex.com
@@ -16,18 +15,14 @@ import lombok.ToString;
 @Getter
 @Setter
 public class SimpleService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+    public final static String beanName = "<Service>";
     private ApplicationContext applicationContext;
     private BeanFactory beanFactory;
-
     private String serviceName;
-
     private String uid;
     private String company;
     private String location;
-
     private IUserDao dao;
-
-    public final static String beanName = "<Service>";
 
     public String getUserNameById(String userId) {
         System.out.println("=======dao：" + dao);

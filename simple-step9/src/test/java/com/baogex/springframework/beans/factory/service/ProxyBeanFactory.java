@@ -1,11 +1,9 @@
 package com.baogex.springframework.beans.factory.service;
 
-import com.baogex.springframework.beans.factory.BeanNameAware;
 import com.baogex.springframework.beans.factory.FactoryBean;
 import com.baogex.springframework.beans.factory.InitializingBean;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;

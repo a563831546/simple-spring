@@ -4,7 +4,6 @@ import com.baogex.springframework.apo.AdvisedSupport;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import org.aopalliance.intercept.MethodInvocation;
 
 import java.lang.reflect.Method;
 

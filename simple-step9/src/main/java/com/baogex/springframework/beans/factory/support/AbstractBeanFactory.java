@@ -1,6 +1,5 @@
 package com.baogex.springframework.beans.factory.support;
 
-import com.baogex.springframework.beans.factory.BeanFactory;
 import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.factory.FactoryBean;
 import com.baogex.springframework.beans.factory.config.BeanDefinition;
@@ -51,12 +50,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistry implements
 
     private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
         // 1.如果这个FactoryBean不做处理
-        if(!(beanInstance instanceof FactoryBean)){
+        if (!(beanInstance instanceof FactoryBean)) {
             return beanInstance;
         }
         // 2.先从缓存获取
         Object bean = getCachedObjectForFactoryBean(beanName);
-        if(bean == null){
+        if (bean == null) {
             bean = getObjectFromFactoryBean((FactoryBean) beanInstance, beanName);
         }
         return bean;

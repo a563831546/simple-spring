@@ -12,7 +12,8 @@ public interface BeanDefinitionRegistry {
 
     /**
      * 向注册表注册bean对象实例
-     * @param beanName bean名称、id
+     *
+     * @param beanName       bean名称、id
      * @param beanDefinition bean定义实例对象
      */
     void registerBeanDefinition(String beanName, BeanDefinition beanDefinition);

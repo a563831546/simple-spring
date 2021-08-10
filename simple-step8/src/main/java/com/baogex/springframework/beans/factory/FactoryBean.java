@@ -1,7 +1,5 @@
 package com.baogex.springframework.beans.factory;
 
-import com.baogex.springframework.beans.BeansException;
-
 /**
  * <p>
  * 由 {@link BeanFactory} 中使用的对象实现的接口，这些对象本身就是工厂。

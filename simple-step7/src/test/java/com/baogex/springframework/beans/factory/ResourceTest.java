@@ -34,11 +34,12 @@ public class ResourceTest {
         String readContent = IoUtil.readUtf8(resource.getInputStream());
         System.out.println(readContent);
     }
+
     @Test
     public void testURL() throws IOException {
         Resource resource = resourceLoader.getResource("https://www.baidu.com");
         String readContent = IoUtil.readUtf8(resource.getInputStream());
         System.out.println(readContent);
     }
-    
+
 }

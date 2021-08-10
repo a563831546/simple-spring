@@ -9,7 +9,7 @@ import java.util.Date;
  * @since : 2021-08-09
  */
 public class CustomEventListener implements ApplicationListener<CustomEvent> {
-    
+
     @Override
     public void onApplicationEvent(CustomEvent event) {
         System.out.println("收到：" + event.getSource() + "消息;时间：" + new Date());

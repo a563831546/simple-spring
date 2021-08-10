@@ -19,6 +19,7 @@ public class ApplicationContextEvent extends ApplicationEvent {
 
     /**
      * 获取容器上下文
+     *
      * @return
      */
     public ApplicationContextEvent getApplicationContext() {

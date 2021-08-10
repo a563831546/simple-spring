@@ -1,7 +1,5 @@
 package com.baogex.springframework.beans.factory;
 
-import com.baogex.springframework.beans.BeansException;
-
 /**
  * 由想要在 bean 工厂中知道其 bean 名称的 bean 实现的接口。
  *

@@ -16,8 +16,8 @@ public class SimpleDao {
         userData.put("3", "大明");
         userData.put("4", "究明");
     }
-    
-    public String getUserNameById(String id){
+
+    public String getUserNameById(String id) {
         return userData.get(id);
     }
 }

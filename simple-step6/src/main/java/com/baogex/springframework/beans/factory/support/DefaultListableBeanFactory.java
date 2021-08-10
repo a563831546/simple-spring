@@ -3,7 +3,6 @@ package com.baogex.springframework.beans.factory.support;
 import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.baogex.springframework.beans.factory.config.BeanDefinition;
-import lombok.val;
 
 import java.util.HashMap;
 import java.util.Map;

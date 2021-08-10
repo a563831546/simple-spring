@@ -32,6 +32,7 @@ public interface BeanFactory {
 
     /**
      * 根绝类
+     *
      * @param name
      * @param requiredType
      * @param <T>

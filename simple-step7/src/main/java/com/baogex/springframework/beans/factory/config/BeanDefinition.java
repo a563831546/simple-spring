@@ -2,7 +2,6 @@ package com.baogex.springframework.beans.factory.config;
 
 import com.baogex.springframework.beans.PropertyValues;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -15,11 +14,11 @@ import lombok.Setter;
 @Setter
 public class BeanDefinition {
     private Class<?> beanClass;
-    
+
     private PropertyValues propertyValues;
-    
+
     private String initMethodName;
-    
+
     private String destroyMethodName;
 
     public BeanDefinition(Class<?> beanClass) {

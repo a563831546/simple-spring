@@ -18,11 +18,11 @@ public class SimpleDao {
         userData.put("4", "究明");
     }
 
-    public void destroyDataMethod(){
+    public void destroyDataMethod() {
         System.out.println("[DAO]---destroyDataMethod");
         userData.clear();
     }
-    
+
     public String getUserNameById(String id) {
         return userData.get(id);
     }

@@ -2,7 +2,6 @@ package com.baogex.springframework.beans.factory.support;
 
 import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.factory.config.BeanDefinition;
-import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
 

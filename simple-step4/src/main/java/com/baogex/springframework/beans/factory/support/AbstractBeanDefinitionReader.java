@@ -1,7 +1,6 @@
 package com.baogex.springframework.beans.factory.support;
 
 import com.baogex.springframework.core.io.DefaultResourceLoader;
-import com.baogex.springframework.core.io.Resource;
 import com.baogex.springframework.core.io.ResourceLoader;
 
 /**

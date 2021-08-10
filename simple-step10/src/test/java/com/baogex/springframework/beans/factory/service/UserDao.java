@@ -1,7 +1,5 @@
 package com.baogex.springframework.beans.factory.service;
 
-import com.baogex.springframework.beans.factory.BeanNameAware;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,8 +8,8 @@ import java.util.Map;
  * @since : 2021-08-03
  */
 public class UserDao implements IUserDao {
-    private final Map<String, String> userData = new HashMap<>(4);
     public final static String beanName = "<DAO>";
+    private final Map<String, String> userData = new HashMap<>(4);
 
     {
         userData.put("1", "小明");

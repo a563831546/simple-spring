@@ -1,6 +1,5 @@
 package com.baogex.springframework.beans.factory.support;
 
-import com.baogex.springframework.beans.factory.BeanFactory;
 import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.factory.config.BeanDefinition;
 import com.baogex.springframework.beans.factory.config.BeanPostProcessor;

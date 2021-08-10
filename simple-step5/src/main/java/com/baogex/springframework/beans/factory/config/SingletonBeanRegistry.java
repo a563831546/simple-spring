@@ -7,7 +7,7 @@ package com.baogex.springframework.beans.factory.config;
  * @since : 2021-08-02
  */
 public interface SingletonBeanRegistry {
-    
+
     /**
      * 获取单例Bean实例对象
      *

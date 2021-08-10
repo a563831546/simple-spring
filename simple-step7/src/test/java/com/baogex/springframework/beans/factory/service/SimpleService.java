@@ -17,18 +17,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SimpleService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+    public final static String beanName = "<Service>";
     private ApplicationContext applicationContext;
     private BeanFactory beanFactory;
-
     private String serviceName;
-
     private String uid;
     private String company;
     private String location;
-
     private SimpleDao dao;
-
-    public final static String beanName = "<Service>";
 
     public String getUserNameById(String userId) {
         return dao.getUserNameById(userId);

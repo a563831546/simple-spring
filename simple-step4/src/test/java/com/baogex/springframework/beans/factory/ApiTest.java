@@ -1,7 +1,7 @@
 package com.baogex.springframework.beans.factory;
 
-import com.baogex.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.baogex.springframework.beans.factory.service.SimpleService;
+import com.baogex.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.baogex.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.junit.Test;
 

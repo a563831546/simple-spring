@@ -10,8 +10,8 @@ import java.util.Map;
  * @since : 2021-08-03
  */
 public class SimpleDao implements BeanNameAware {
-    private final Map<String, String> userData = new HashMap<>(4);
     public final static String beanName = "<DAO>";
+    private final Map<String, String> userData = new HashMap<>(4);
 
     public void initDataMethod() {
         System.out.println("[DAO]---initDataMethod");

@@ -1,7 +1,6 @@
 package com.baogex.springframework.beans.factory.config;
 
 import com.baogex.springframework.beans.PropertyValues;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

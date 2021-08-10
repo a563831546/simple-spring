@@ -1,7 +1,5 @@
 package com.baogex.springframework.beans.factory.config;
 
-import com.baogex.springframework.beans.factory.DisposableBean;
-
 /**
  * 单例bean工厂
  *
@@ -9,7 +7,7 @@ import com.baogex.springframework.beans.factory.DisposableBean;
  * @since : 2021-08-02
  */
 public interface SingletonBeanRegistry {
-    
+
     /**
      * 获取单例Bean实例对象
      *

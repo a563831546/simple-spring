@@ -2,8 +2,8 @@ package com.baogex.springframework.beans.factory;
 
 import com.baogex.springframework.beans.factory.processor.MyPostBeanFactoryProcessor;
 import com.baogex.springframework.beans.factory.processor.MyPostBeanProcessor;
-import com.baogex.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.baogex.springframework.beans.factory.service.SimpleService;
+import com.baogex.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.baogex.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import com.baogex.springframework.context.support.ClassPathXmlApplicationContext;
 import org.junit.Test;

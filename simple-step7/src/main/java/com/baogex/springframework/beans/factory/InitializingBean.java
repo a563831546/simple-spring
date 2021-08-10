@@ -1,7 +1,5 @@
 package com.baogex.springframework.beans.factory;
 
-import com.baogex.springframework.beans.BeansException;
-
 /**
  * <p>
  *

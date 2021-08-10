@@ -10,7 +10,7 @@ import com.baogex.springframework.beans.factory.Aware;
  * @since : 2021-08-05
  */
 public interface ApplicationContextAware extends Aware {
-    
+
     void setApplicationContext(ApplicationContext context) throws BeansException;
-    
+
 }

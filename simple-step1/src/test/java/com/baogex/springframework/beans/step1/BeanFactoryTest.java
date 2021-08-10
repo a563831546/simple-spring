@@ -13,7 +13,7 @@ public class BeanFactoryTest {
         BeanFactory beanFactory = new BeanFactory();
 
         // 2.注册beanDefinition到容器
-        beanFactory.registerBeanDefinition( new BeanDefinition(new TestService()));
+        beanFactory.registerBeanDefinition(new BeanDefinition(new TestService()));
 
         // 3.获取bean
         TestService testService = beanFactory.getBean("testService", TestService.class);

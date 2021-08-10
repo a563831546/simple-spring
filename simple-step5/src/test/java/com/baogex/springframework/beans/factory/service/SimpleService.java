@@ -15,8 +15,8 @@ import lombok.ToString;
 public class SimpleService {
 
     private String serviceName;
-    
-    private String  uid;
+
+    private String uid;
     private String company;
     private String location;
 

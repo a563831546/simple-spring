@@ -1,7 +1,6 @@
 package com.baogex.springframework.beans.factory.support;
 
 import cn.hutool.core.util.StrUtil;
-import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.factory.DisposableBean;
 import com.baogex.springframework.beans.factory.config.BeanDefinition;
 

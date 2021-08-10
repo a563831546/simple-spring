@@ -2,14 +2,13 @@
 <beans>
 
 
-
     <bean name="simpleService" class="com.baogex.springframework.beans.factory.service.SimpleService">
         <property name="serviceName" value="xmlTestServiceName"/>
         <property name="company" value="default-company"/>
         <property name="location" value="default-location"/>
         <property name="dao" ref="simpleDao"/>
     </bean>
-    
+
     <bean id="simpleDao" name="dao" class="com.baogex.springframework.beans.factory.service.SimpleDao"
           init-method="initDataMethod"
           destroy-method="destroyDataMethod"

@@ -1,6 +1,5 @@
 package com.baogex.springframework.beans.factory.support;
 
-import com.baogex.springframework.beans.factory.BeanFactory;
 import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.factory.config.BeanDefinition;
 import com.baogex.springframework.beans.factory.config.BeanPostProcessor;
@@ -19,7 +18,7 @@ import java.util.List;
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
 
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>(8);
-    
+
     private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
     @Override
@@ -62,11 +61,11 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         this.beanPostProcessors.remove(beanPostProcessor);
         this.beanPostProcessors.add(beanPostProcessor);
     }
-    
-    public ClassLoader getBeanClassLoader(){
+
+    public ClassLoader getBeanClassLoader() {
         return this.beanClassLoader;
     }
-    
+
     /* ============================抽象定义============================*/
 
     /**

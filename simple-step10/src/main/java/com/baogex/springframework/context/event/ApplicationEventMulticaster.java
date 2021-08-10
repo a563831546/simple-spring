@@ -8,13 +8,13 @@ import com.baogex.springframework.context.ApplicationListener;
  * @Date: 2021/8/7
  */
 public interface ApplicationEventMulticaster {
-    
+
     void addApplicationListener(ApplicationListener<?> listener);
-    
-    
+
+
     void removeApplicationListener(ApplicationListener<?> listener);
-    
-    
+
+
     void multicastEvent(ApplicationEvent event);
-    
+
 }
