@@ -3,7 +3,7 @@ package com.baogex.springframework.beans.factory.processor;
 import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.factory.ApiTest;
 import com.baogex.springframework.beans.factory.config.BeanPostProcessor;
-import com.baogex.springframework.beans.factory.service.SimpleService;
+import com.baogex.springframework.beans.factory.service.UserService;
 
 /**
  * @author : baogex.com
@@ -14,7 +14,7 @@ public class MyPostBeanProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (ApiTest.simpleServiceName.equals(beanName)) {
-            SimpleService simpleService = (SimpleService) bean;
+            UserService simpleService = (UserService) bean;
             simpleService.setLocation("南京");
         }
         return bean;

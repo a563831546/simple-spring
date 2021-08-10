@@ -4,7 +4,7 @@ import com.baogex.springframework.beans.factory.event.CustomEvent;
 import com.baogex.springframework.beans.factory.processor.MyPostBeanFactoryProcessor;
 import com.baogex.springframework.beans.factory.processor.MyPostBeanProcessor;
 import com.baogex.springframework.beans.factory.support.DefaultListableBeanFactory;
-import com.baogex.springframework.beans.factory.service.SimpleService;
+import com.baogex.springframework.beans.factory.service.UserService;
 import com.baogex.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import com.baogex.springframework.context.ApplicationContext;
 import com.baogex.springframework.context.support.ClassPathXmlApplicationContext;
@@ -33,7 +33,7 @@ public class ApiTest {
         beanFactory.addBeanPostProcessor(myPostBeanProcessor);
 
         // 3.注册service实例,添加daoBean依赖
-        SimpleService service = beanFactory.getBean(simpleServiceName, SimpleService.class);
+        UserService service = beanFactory.getBean(simpleServiceName, UserService.class);
 
         System.out.println(service.getServiceName() + "---" + service.getUserNameById("2"));
         System.out.println(service);
@@ -42,8 +42,8 @@ public class ApiTest {
     @Test
     public void test_prototype() {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
-        SimpleService service1 = applicationContext.getBean(simpleServiceName, SimpleService.class);
-        SimpleService service2 = applicationContext.getBean(simpleServiceName, SimpleService.class);
+        UserService service1 = applicationContext.getBean(simpleServiceName, UserService.class);
+        UserService service2 = applicationContext.getBean(simpleServiceName, UserService.class);
         System.out.println(service1);
         System.out.println(service2);
         // 4. 打印十六进制哈希
@@ -60,7 +60,7 @@ public class ApiTest {
         applicationContext.registerShutdownHook();
 
         System.out.println("=====step3======[ApiTest]---applicationContext.getBean===========");
-        SimpleService simpleService = applicationContext.getBean(simpleServiceName, SimpleService.class);
+        UserService simpleService = applicationContext.getBean(simpleServiceName, UserService.class);
         System.out.println("-----------------Start Business processing-----------------");
         System.out.println(simpleService.getUserNameById("3"));
         System.out.println("-----------------Stop  Business processing-----------------");

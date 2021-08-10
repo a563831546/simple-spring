@@ -15,7 +15,7 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-public class SimpleService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+public class UserService implements IUserService, InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
     private ApplicationContext applicationContext;
     private BeanFactory beanFactory;
 
@@ -29,6 +29,11 @@ public class SimpleService implements InitializingBean, DisposableBean, BeanName
 
     public final static String beanName = "<Service>";
 
+    public UserService() {
+        dao = new UserDao();
+    }
+
+    @Override
     public String getUserNameById(String userId) {
         System.out.println("=======dao：" + dao);
         return dao.queryUserName(userId);

@@ -6,9 +6,8 @@ package com.baogex.springframework.beans.factory.service;
  * </p>
  *
  * @author : zuomin.yu
- * @date : 2021-08-06
+ * @date : 2021-08-10
  */
-public interface IUserDao {
-    
-    String queryUserName(String uId);
+public interface IUserService {
+    public String getUserNameById(String userId);
 }

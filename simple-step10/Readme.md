@@ -1,5 +1,5 @@
-## Step6
+## Step10
 
-### 支持事件Event发布
+### 添加aop
 
-1. 定义**ApplicationEvent**,事件监听发布属于容器
+1. 添加包```com.baogex.springframework.apo``` ,待补充

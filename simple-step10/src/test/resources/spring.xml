@@ -2,7 +2,7 @@
 <beans>
 
 
-    <bean name="simpleService" class="com.baogex.springframework.beans.factory.service.SimpleService" scope="prototype">
+    <bean name="simpleService" class="com.baogex.springframework.beans.factory.service.UserService" scope="prototype">
         <property name="serviceName" value="xmlTestServiceName"/>
         <property name="company" value="default-company"/>
         <property name="location" value="default-location"/>
