@@ -6,10 +6,7 @@ import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.PropertyValue;
 import com.baogex.springframework.beans.PropertyValues;
 import com.baogex.springframework.beans.factory.*;
-import com.baogex.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import com.baogex.springframework.beans.factory.config.BeanDefinition;
-import com.baogex.springframework.beans.factory.config.BeanPostProcessor;
-import com.baogex.springframework.beans.factory.config.BeanReference;
+import com.baogex.springframework.beans.factory.config.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,6 +39,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
         Object bean;
         try {
+            // 1.判断是否为代理对象
+            bean = resolveBeforeInstantiation(beanName, beanDefinition);
+            if (bean != null) {
+                return bean;
+            }
             // 1.创建bean实例
             System.out.println("AbstractAutowireCapableBeanFactory--step1-createBeanInstance--" + beanName);
             bean = createBeanInstance(beanName, beanDefinition, args);
@@ -66,6 +68,34 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         System.out.println("------------------AbstractAutowireCapableBeanFactory--bean["
                 + beanName + "] done------------------");
         return bean;
+    }
+
+    protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
+        // 判断
+        Object bean = applyBeanPostProcessorsBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+        if (bean != null) {
+            return applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        }
+        return bean;
+    }
+
+    /**
+     * 判断是否实现了postProcessBeforeInstantiation接口，
+     * 如果是，则使用代理类生产代理对象
+     *
+     * @param beanClass
+     * @param beanName
+     * @return
+     */
+    protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                Object result = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessBeforeInstantiation(beanClass, beanName);
+                if (result != null) return result;
+            }
+        }
+
+        return null;
     }
 
     private void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {

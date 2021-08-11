@@ -3,6 +3,7 @@ package com.baogex.springframework.beans.factory;
 import com.baogex.springframework.beans.factory.event.CustomEvent;
 import com.baogex.springframework.beans.factory.processor.MyPostBeanFactoryProcessor;
 import com.baogex.springframework.beans.factory.processor.MyPostBeanProcessor;
+import com.baogex.springframework.beans.factory.service.IUserService;
 import com.baogex.springframework.beans.factory.service.UserService;
 import com.baogex.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.baogex.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -53,14 +54,14 @@ public class ApiTest {
 
     @Test
     public void testXml() {
-        System.out.println("=====step1======[ApiTest]---new ClassPathXmlApplicationContext===========");
+        System.out.println("=====主进程-step1======[ApiTest]---new ClassPathXmlApplicationContext===========");
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
 
-        System.out.println("=====step2======[ApiTest]---call registerShutdownHook===========");
+        System.out.println("=====主进程-step2======[ApiTest]---call registerShutdownHook===========");
         applicationContext.registerShutdownHook();
 
-        System.out.println("=====step3======[ApiTest]---applicationContext.getBean===========");
-        UserService simpleService = applicationContext.getBean(simpleServiceName, UserService.class);
+        System.out.println("=====主进程-step3======[ApiTest]---applicationContext.getBean===========");
+        IUserService simpleService = applicationContext.getBean(simpleServiceName, IUserService.class);
         System.out.println("-----------------Start Business processing-----------------");
         System.out.println(simpleService.getUserNameById("3"));
         System.out.println("-----------------Stop  Business processing-----------------");

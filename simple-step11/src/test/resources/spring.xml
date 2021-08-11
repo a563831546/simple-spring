@@ -17,4 +17,15 @@
     <bean id="iUserDao" name="iUserDao" class="com.baogex.springframework.beans.factory.service.ProxyBeanFactory"/>
     <!--    <bean class="com.baogex.springframework.beans.factory.processor.MyPostBeanFactoryProcessor"/>-->
     <!--    <bean class="com.baogex.springframework.beans.factory.processor.MyPostBeanProcessor"/>-->
+    <!--===================================AOP============================-->
+    <bean id="defaultAdvisorAutoProxyCreator" class="com.baogex.springframework.apo.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+    <bean id="userServiceBeforeAdvice" class="com.baogex.springframework.beans.factory.advice.UserServiceBeforeAdvice"/>
+    <bean id="methodBeforeAdviceInterceptor" class="com.baogex.springframework.apo.framework.adapter.MethodBeforeAdviceInterceptor">
+        <property name="advice" ref="userServiceBeforeAdvice"/>
+    </bean>
+    <bean id="aspectJExpressionPointcutAdvisor" class="com.baogex.springframework.apo.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* com.baogex.springframework.beans.factory.service.IUserService.*(..))"/>
+        <property name="advice" ref="methodBeforeAdviceInterceptor"/>
+    </bean>
+
 </beans>
