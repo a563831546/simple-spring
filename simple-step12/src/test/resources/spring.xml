@@ -2,11 +2,13 @@
 <beans>
 
 
+
     <bean name="simpleService" class="com.baogex.springframework.beans.factory.service.UserService" scope="prototype">
         <property name="serviceName" value="xmlTestServiceName"/>
         <property name="company" value="default-company"/>
         <property name="location" value="default-location"/>
         <property name="dao" ref="iUserDao"/>
+        <property name="token" value="${token}"/>
     </bean>
 
 
@@ -28,4 +30,11 @@
         <property name="advice" ref="methodBeforeAdviceInterceptor"/>
     </bean>
 
+    <bean class="com.baogex.springframework.beans.factory.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:important.properties"/>
+    </bean>
+    <bean name="superUser" class="com.baogex.springframework.beans.factory.service.SuperUserService">
+        <property name="userDao" ref="iUserDao"/>
+        <property name="token" value="${token}"/>
+    </bean>
 </beans>

@@ -42,6 +42,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             // 1.判断是否为代理对象
             bean = resolveBeforeInstantiation(beanName, beanDefinition);
             if (bean != null) {
+                System.out.println("bean:"+beanName+" 走代理类");
                 return bean;
             }
             // 1.创建bean实例
@@ -88,7 +89,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * @return
      */
     protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
-        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+        List<BeanPostProcessor> beanPostProcessors = getBeanPostProcessors();
+        for (BeanPostProcessor beanPostProcessor : beanPostProcessors) {
             if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
                 Object result = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessBeforeInstantiation(beanClass, beanName);
                 if (result != null) return result;
@@ -157,6 +159,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 }
                 // 2.2 属性填充
                 BeanUtil.setFieldValue(bean, fieldName, value);
+                System.out.println(beanName+"--属性填充[" + fieldName + "]---[" + value + "]");
             }
         } catch (Exception e) {
             throw new BeansException("Bean: " + beanName + " Property fill error", e);

@@ -5,6 +5,7 @@ import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.factory.*;
 import com.baogex.springframework.context.ApplicationContext;
 import com.baogex.springframework.context.ApplicationContextAware;
+import com.baogex.springframework.context.stereotype.Component;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,12 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+
 public class UserService implements IUserService, InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+    
+    private String token;
+    
+    
     public final static String beanName = "<Service>";
     private ApplicationContext applicationContext;
     private BeanFactory beanFactory;
@@ -73,5 +79,19 @@ public class UserService implements IUserService, InitializingBean, DisposableBe
     public void setApplicationContext(ApplicationContext context) throws BeansException {
         System.out.println(beanName + "--[Aware]-setApplicationContext:" + context);
         this.applicationContext = context;
+    }
+
+    @Override
+    public String toString() {
+        return "UserService{" +
+                "token='" + token + '\'' +
+                ", applicationContext=" + applicationContext +
+                ", beanFactory=" + beanFactory +
+                ", serviceName='" + serviceName + '\'' +
+                ", uid='" + uid + '\'' +
+                ", company='" + company + '\'' +
+                ", location='" + location + '\'' +
+                ", dao=" + dao +
+                '}';
     }
 }

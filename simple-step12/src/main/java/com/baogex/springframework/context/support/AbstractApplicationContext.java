@@ -32,7 +32,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     public void refresh() throws BeansException {
         // 1.创建工厂，并加载BeanDefinition 
         refreshBeanFactory();
-
+    
         // 2.获取工厂
         ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 

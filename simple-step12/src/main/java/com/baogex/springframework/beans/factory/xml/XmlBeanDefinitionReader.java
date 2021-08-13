@@ -1,22 +1,23 @@
 package com.baogex.springframework.beans.factory.xml;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.XmlUtil;
 import com.baogex.springframework.beans.BeansException;
 import com.baogex.springframework.beans.PropertyValue;
 import com.baogex.springframework.beans.factory.config.BeanDefinition;
 import com.baogex.springframework.beans.factory.config.BeanReference;
 import com.baogex.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import com.baogex.springframework.beans.factory.support.BeanDefinitionRegistry;
+import com.baogex.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import com.baogex.springframework.core.io.Resource;
 import com.baogex.springframework.core.io.ResourceLoader;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author : baogex.com
@@ -37,7 +38,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             try (InputStream inputStream = resource.getInputStream()) {
                 doLoadBeanDefinition(inputStream);
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | DocumentException e) {
             e.printStackTrace();
         }
     }
@@ -64,23 +65,30 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
     }
 
-    private void doLoadBeanDefinition(InputStream inputStream) throws ClassNotFoundException {
-        Document document = XmlUtil.readXML(inputStream);
-        Element root = document.getDocumentElement();
-        NodeList childNodes = root.getChildNodes();
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            if ((!(childNodes.item(i) instanceof Element)) ||
-                    !"bean".equals(childNodes.item(i).getNodeName())) {
-                continue;
+    private void doLoadBeanDefinition(InputStream inputStream) throws ClassNotFoundException, DocumentException {
+        SAXReader reader = new SAXReader();
+        Document document = reader.read(inputStream);
+        Element root = document.getRootElement();
+        // 1.获取扫描注解配置
+        Element scanConfig = root.element("component-scan");
+        if (scanConfig != null) {
+            String basePackage = scanConfig.attributeValue("base-package");
+            if (StrUtil.isEmpty(basePackage)) {
+                throw new BeansException("The value of base-package attribute can not be empty or null");
             }
-            Element bean = (Element) childNodes.item(i);
-            // 标签解析
-            String id = bean.getAttribute("id");
-            String name = bean.getAttribute("name");
-            String className = bean.getAttribute("class");
-            String initMethod = bean.getAttribute("init-method");
-            String destroyMethod = bean.getAttribute("destroy-method");
-            String beanScope = bean.getAttribute("scope");
+            scanPackage(basePackage);
+        }
+
+        List<Element> beanList = root.elements("bean");
+        for (Element bean : beanList) {
+
+            String id = bean.attributeValue("id");
+            String name = bean.attributeValue("name");
+            String className = bean.attributeValue("class");
+            String initMethod = bean.attributeValue("init-method");
+            String destroyMethodName = bean.attributeValue("destroy-method");
+            String beanScope = bean.attributeValue("scope");
+
             // bean的类信息
             Class<?> clazz = Class.forName(className);
             // bean在容器中名称,优先级 id > name
@@ -100,29 +108,39 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 beanDefinition.setInitMethodName(initMethod);
             }
             // 设置销毁函数
-            if (StrUtil.isNotEmpty(destroyMethod)) {
-                beanDefinition.setDestroyMethodName(destroyMethod);
+            if (StrUtil.isNotEmpty(destroyMethodName)) {
+                beanDefinition.setDestroyMethodName(destroyMethodName);
             }
 
+            // 作用域
             if (StrUtil.isNotEmpty(beanScope)) {
                 beanDefinition.setScope(beanScope);
             }
-            for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
-                Node propertyNode = bean.getChildNodes().item(j);
-                if ((!(propertyNode instanceof Element)) ||
-                        !"property".equals(propertyNode.getNodeName())) {
-                    continue;
-                }
-                Element property = (Element) propertyNode;
-                String attrName = property.getAttribute("name");
-                String attrValue = property.getAttribute("value");
-                String attrRef = property.getAttribute("ref");
+
+            List<Element> propertyList = bean.elements("property");
+
+            for (Element property : propertyList) {
+                // 解析标签：property
+                String attrName = property.attributeValue("name");
+                String attrValue = property.attributeValue("value");
+                String attrRef = property.attributeValue("ref");
+                // 获取属性值：引入对象、值对象
                 Object value = StrUtil.isNotEmpty(attrRef) ? new BeanReference(attrRef) : attrValue;
+                // 创建属性信息
                 PropertyValue propertyValue = new PropertyValue(attrName, value);
                 beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
             }
-            // 注册bean
+            if (getRegistry().containsBeanDefinition(beanName)) {
+                throw new BeansException("Duplicate beanName[" + beanName + "] is not allowed");
+            }
+            // 注册 BeanDefinition
             getRegistry().registerBeanDefinition(beanName, beanDefinition);
         }
+    }
+
+    private void scanPackage(String basePackage) {
+        String[] basePackages = StrUtil.splitToArray(basePackage, ',');
+        ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(getRegistry());
+        scanner.doScan(basePackages);
     }
 }
