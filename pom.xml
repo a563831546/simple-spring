@@ -20,6 +20,7 @@
         <module>simple-step9</module>
         <module>simple-step10</module>
         <module>simple-step11</module>
+        <module>simple-step12</module>
     </modules>
 
     <properties>
